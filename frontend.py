@@ -1,5 +1,7 @@
 from tkinter import *
-import backend
+from backend import Database
+
+database = Database()
 
 window = Tk()
 
@@ -24,14 +26,13 @@ def get_selected_row(event):
 
 
 def close_button():
-    backend.close_book()
     window.destroy()
 
 
 def view_button():
     clean_input()
     l1.delete(0, END)
-    for row in backend.view_books():
+    for row in database.view_books():
         l1.insert(END, row)
 
 
@@ -52,7 +53,7 @@ def clear_button():
 
 
 def add_button():
-    error_message.set(backend.add_book(
+    error_message.set(database.add_book(
         e1.get(),
         e2.get(),
         e3.get(),
@@ -66,7 +67,7 @@ def delete_button():
     global selected_tuple
     index = l1.curselection()[0]
     selected_tuple = l1.get(index)
-    backend.delete_book(str(selected_tuple[0]))
+    database.delete_book(str(selected_tuple[0]))
     view_button()
 
 
@@ -74,7 +75,7 @@ def update_button():
     global selected_tuple
     index = l1.curselection()[0]
     selected_tuple = l1.get(index)
-    error_message.set(backend.update_book_by_id(
+    error_message.set(database.update_book_by_id(
         selected_tuple[0],
         e1.get(),
         e2.get(),
@@ -85,7 +86,7 @@ def update_button():
 
 def find_button():
     l1.delete(0, END)
-    for row in backend.find_book(e1.get(),
+    for row in database.find_book(e1.get(),
                                  e2.get(),
                                  e3.get(),
                                  e4.get()):
